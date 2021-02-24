@@ -1,0 +1,56 @@
+Build started at 2021-02-24T10:06:40.807534
+Main binary: /usr/bin/python3
+Build Options: -Dbackend=ninja
+Python system: Linux
+The Meson build system
+Version: 0.55.3
+Source dir: /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project
+Build dir: /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build
+Build type: native build
+None of 'PKG_CONFIG_PATH' are defined in the environment, not changing global flags.
+None of 'PKG_CONFIG_PATH' are defined in the environment, not changing global flags.
+Project name: project2
+Project version: 0.1
+C++ compiler for the build machine: c++ (gcc 9.3.0 "c++ (Ubuntu 9.3.0-10ubuntu2) 9.3.0")
+C++ linker for the build machine: c++ ld.bfd 2.34
+None of 'AR' are defined in the environment, not changing global flags.
+C++ compiler for the host machine: c++ (gcc 9.3.0 "c++ (Ubuntu 9.3.0-10ubuntu2) 9.3.0")
+C++ linker for the host machine: c++ ld.bfd 2.34
+None of 'AR' are defined in the environment, not changing global flags.
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Target machine cpu family: x86_64
+Target machine cpu: x86_64
+Run-time dependency threads found: YES
+Build targets in project: 1
+
+Option cpp_std is: c++17 [default: c++2a]
+Found ninja-1.10.0.git.kitware.jobserver-1 at /home/linux/.local/bin/ninja
+Running compile:
+Working directory:  /tmp/tmp7csxufb_
+Command line:  c++ /tmp/tmp7csxufb_/testfile.cpp -o /tmp/tmp7csxufb_/output.obj -pipe -D_FILE_OFFSET_BITS=64 -c -std=c++17 
+
+Code:
+ int i = static_cast<int>(0);
+Compiler stdout:
+ 
+Compiler stderr:
+ 
+Compiler accepts -std=c++17: YES
+Running compile:
+Working directory:  /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpno35di5d
+Command line:  c++ /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpno35di5d/testfile.cpp -o /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpno35di5d/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/x86_64-linux-gnu/9/
+programs: =/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/bin/
+libraries: =/usr/lib/gcc/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/9/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../lib/:/lib/x86_64-linux-gnu/9/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/9/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../../x86_64-linux-gnu/lib/:/usr/lib/gcc/x86_64-linux-gnu/9/../../../:/lib/:/usr/lib/
+
+Compiler stderr:
+ 
+None of 'STRIP' are defined in the environment, not changing global flags.
+None of 'STRIP' are defined in the environment, not changing global flags.

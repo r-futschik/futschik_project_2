@@ -1,0 +1,8 @@
+[
+  {
+    "directory": "/mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build",
+    "command": "c++ -Imain.p -I. -I.. -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -g -pthread -MD -MQ main.p/src_main.cpp.o -MF main.p/src_main.cpp.o.d -o main.p/src_main.cpp.o -c ../src/main.cpp",
+    "file": "../src/main.cpp",
+    "output": "main.p/src_main.cpp.o"
+  }
+]
