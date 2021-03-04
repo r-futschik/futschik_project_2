@@ -6,13 +6,20 @@
 #include <typeinfo> 
 
 using namespace std;
-using namespace asio;
+using namespace asio::ip;
 
 
 int main() {
-    auto a1{ip::make_address("127.0.0.1")};
-    cout << a1.to_string() << ", " << a1 << endl;
-    cout << a1.is_loopback() << endl;
-    cout<< a1.is_v4()<< ", "<< a1.is_v6() << endl;
-    cout<< a1.to_v4()<< endl;
+    asio::io_context ctx;
+    tcp::endpoint ep{tcp::v4(), 9999};
+    tcp::acceptor acceptor{ctx, ep}; 
+    acceptor.listen();
+    tcp::socket sock{ctx};
+    acceptor.accept(sock);
+    tcp::iostream strm{std::move(sock)};
+
+    string data;
+    strm >> data; 
+    strm << data;
+    strm.close(); 
 }

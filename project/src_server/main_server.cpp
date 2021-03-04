@@ -6,16 +6,18 @@
 #include <typeinfo> 
 
 using namespace std;
-using namespace asio;
+using namespace asio::ip;
 
 
 int main() {
-    ip::tcp::endpoint ep1{
-    ip::address_v4::any(), 80};
-
-    cout << ep1 << endl;
-    cout<< ep1.address()<< ":"<< ep1.port()<< endl;
-
-
-   
+    tcp::iostream strm{"localhost", "9999"};
+    if (strm) { 
+        strm << "ping-pong" << endl;
+        string data;
+        getline(strm, data);
+        cout << data << endl;
+        strm.close();
+    } else { 
+        cout << "no connection" << endl; 
+    }
 }
