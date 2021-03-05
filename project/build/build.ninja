@@ -41,7 +41,12 @@ build start_server.p/src_server_main_server.cpp.o: cpp_COMPILER ../src_server/ma
  DEPFILE_UNQUOTED = start_server.p/src_server_main_server.cpp.o.d
  ARGS = -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread
 
-build start_server: cpp_LINKER start_server.p/src_server_main_server.cpp.o
+build start_server.p/src_server_ship.cpp.o: cpp_COMPILER ../src_server/ship.cpp
+ DEPFILE = start_server.p/src_server_ship.cpp.o.d
+ DEPFILE_UNQUOTED = start_server.p/src_server_ship.cpp.o.d
+ ARGS = -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread
+
+build start_server: cpp_LINKER start_server.p/src_server_main_server.cpp.o start_server.p/src_server_ship.cpp.o
  LINK_ARGS = -Wl,--as-needed -Wl,--no-undefined -pthread
 
 build start_client.p/src_client_main_client.cpp.o: cpp_COMPILER ../src_client/main_client.cpp

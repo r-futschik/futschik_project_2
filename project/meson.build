@@ -14,7 +14,7 @@ inc_dir = include_directories(['include',
 
 
 
-src_server = ['src_server/main_server.cpp']
+src_server = ['src_server/main_server.cpp', 'src_server/ship.cpp']
 
 src_client = ['src_client/main_client.cpp']
 

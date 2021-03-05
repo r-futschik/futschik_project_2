@@ -4,18 +4,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <condition_variable>
-#include <mutex>
+
 #include <string>
-#include <queue>
+#include <vector>
 
 
-class Ship {
+class Player {
     private:
-    
+        std::string name;
+
+        std::vector<Ship> ships;
     
     public:
-
+        Player(std::string name) : name(name){};
+        void add_ship(Ship ship);
 };
 
 

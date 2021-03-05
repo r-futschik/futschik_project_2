@@ -4,17 +4,16 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include <condition_variable>
-#include <mutex>
+
 #include <string>
-#include <queue>
+#include <vector>
 
 
 class Ship {
     private:
-
     public:
-
+        std::vector<std::string> location; // for testing
+        Ship(int size, std::string start, std::string end);
 };
 
 

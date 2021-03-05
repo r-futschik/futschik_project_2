@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "asio.hpp"
-#include <typeinfo> 
+
 
 using namespace std;
 using namespace asio::ip;
