@@ -7,17 +7,20 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
+
 
 
 class Player {
     private:
-        std::string name;
-
-        std::vector<Ship> ships;
-    
+        
+        std::vector<std::string> ship_locations;
+        std::vector<std::tuple<std::string, bool>> guesses;
     public:
+        std::vector<int> ship_sizes_left{1, 1, 1, 1, 2, 2, 2, 3, 3, 4};
+        std::string name;
         Player(std::string name) : name(name){};
-        void add_ship(Ship ship);
+        void add_ship(std::vector<std::string> ship);
 };
 
 

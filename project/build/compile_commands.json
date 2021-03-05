@@ -1,19 +1,25 @@
 [
   {
     "directory": "/mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build",
-    "command": "c++ -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_server.p/src_server_main_server.cpp.o -MF start_server.p/src_server_main_server.cpp.o.d -o start_server.p/src_server_main_server.cpp.o -c ../src_server/main_server.cpp",
+    "command": "c++ -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -I/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_server.p/src_server_main_server.cpp.o -MF start_server.p/src_server_main_server.cpp.o.d -o start_server.p/src_server_main_server.cpp.o -c ../src_server/main_server.cpp",
     "file": "../src_server/main_server.cpp",
     "output": "start_server.p/src_server_main_server.cpp.o"
   },
   {
     "directory": "/mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build",
-    "command": "c++ -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_server.p/src_server_ship.cpp.o -MF start_server.p/src_server_ship.cpp.o.d -o start_server.p/src_server_ship.cpp.o -c ../src_server/ship.cpp",
-    "file": "../src_server/ship.cpp",
-    "output": "start_server.p/src_server_ship.cpp.o"
+    "command": "c++ -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -I/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_server.p/src_server_game_master.cpp.o -MF start_server.p/src_server_game_master.cpp.o.d -o start_server.p/src_server_game_master.cpp.o -c ../src_server/game_master.cpp",
+    "file": "../src_server/game_master.cpp",
+    "output": "start_server.p/src_server_game_master.cpp.o"
   },
   {
     "directory": "/mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build",
-    "command": "c++ -Istart_client.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_client.p/src_client_main_client.cpp.o -MF start_client.p/src_client_main_client.cpp.o.d -o start_client.p/src_client_main_client.cpp.o -c ../src_client/main_client.cpp",
+    "command": "c++ -Istart_server.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -I/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_server.p/src_server_player.cpp.o -MF start_server.p/src_server_player.cpp.o.d -o start_server.p/src_server_player.cpp.o -c ../src_server/player.cpp",
+    "file": "../src_server/player.cpp",
+    "output": "start_server.p/src_server_player.cpp.o"
+  },
+  {
+    "directory": "/mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build",
+    "command": "c++ -Istart_client.p -I. -I.. -I../include -I/mnt/c/Users/Raphi/Documents/cpp_headers -I/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog -I/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include -I/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++2a -g -pthread -MD -MQ start_client.p/src_client_main_client.cpp.o -MF start_client.p/src_client_main_client.cpp.o.d -o start_client.p/src_client_main_client.cpp.o -c ../src_client/main_client.cpp",
     "file": "../src_client/main_client.cpp",
     "output": "start_client.p/src_client_main_client.cpp.o"
   }

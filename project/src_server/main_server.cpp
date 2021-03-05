@@ -2,8 +2,8 @@
 #include <iostream>
 #include <thread>
 
-#include "ship.h"
 #include "player.h"
+#include "game_master.h"
 
 #include "asio.hpp"
 
@@ -13,11 +13,12 @@ using namespace asio::ip;
 
 int main() {
 
-    Ship* ship = new Ship(3, "A1", "A3");
+    Player player = Player("test");
 
-    for(int i = 0; i < 3; i++){
-        cout << ship->location[i] << endl;
-    }
+
+
+    GameMaster::print_board(player);
+    GameMaster::set_ships(player);
      //location is public for testing
     /*
     tcp::iostream strm{"localhost", "9999"};

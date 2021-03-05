@@ -9,12 +9,13 @@ inc_dir = include_directories(['include',
                                 get_option('cli11_include_dir'),
                                 get_option('spdlog_include_dir'),
 #                               get_option('json_include_dir'),
-                                get_option('asio_include_dir')                               
+                                get_option('asio_include_dir'),
+                                get_option('tabulate_include_dir')                          
                               ])
 
 
 
-src_server = ['src_server/main_server.cpp', 'src_server/ship.cpp']
+src_server = ['src_server/main_server.cpp', 'src_server/game_master.cpp', 'src_server/player.cpp']
 
 src_client = ['src_client/main_client.cpp']
 

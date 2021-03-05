@@ -1,4 +1,4 @@
-Build started at 2021-03-05T01:15:52.176439
+Build started at 2021-03-05T17:32:15.099510
 Main binary: /usr/bin/python3
 Build Options: -Dbackend=ninja
 Python system: Linux
@@ -28,8 +28,8 @@ Build targets in project: 2
 
 Found ninja-1.10.0.git.kitware.jobserver-1 at /home/linux/.local/bin/ninja
 Running compile:
-Working directory:  /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpcr2ebbxk
-Command line:  c++ /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpcr2ebbxk/testfile.cpp -o /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpcr2ebbxk/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
+Working directory:  /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpc9pmb6oc
+Command line:  c++ /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpc9pmb6oc/testfile.cpp -o /mnt/c/Users/Raphi/Desktop/2Kool4Skool/Nvs/Meson/project/futschik_project_2/futschik_project_2/project/build/meson-private/tmpc9pmb6oc/output.obj -pipe -c -D_FILE_OFFSET_BITS=64 -O0 -fpermissive --print-search-dirs 
 
 Code:
  
