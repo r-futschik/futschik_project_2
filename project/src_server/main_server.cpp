@@ -5,10 +5,15 @@
 #include "player.h"
 #include "game_master.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #include "asio.hpp"
+#pragma GCC diagnostic pop
+
 
 using namespace std;
 using namespace asio::ip;
+
 
 
 int main() {
@@ -17,7 +22,7 @@ int main() {
 
 
 
-    GameMaster::print_board(player);
+
     GameMaster::set_ships(player);
      //location is public for testing
     /*

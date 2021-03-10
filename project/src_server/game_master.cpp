@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+
 
 #include "game_master.h"
 #include "player.h"
@@ -15,6 +17,8 @@ using namespace tabulate;
 
 
 using namespace std;
+
+
 
 
 
@@ -32,6 +36,18 @@ void GameMaster::print_board(Player player){
     table.add_row({"H", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
     table.add_row({"I", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
     table.add_row({"J", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+
+    for (int i = 1; i < 10; i++){
+        for (int j = 1; j < 10; j++) {
+            if (player.has_ship(table[i][0].get_text() + table[0][j].get_text())){
+                 table[i][j].set_text("*");
+                 table[i][j].format()
+                            .font_background_color(Color::blue);
+            } 
+
+        }
+    }
+
 
 
     // Set width of cells in each column
@@ -86,26 +102,32 @@ vector<string> createShipLocation(string start, string end){
 }
 
 void GameMaster::set_ships(Player player){
-    string start;
-    string end;
-    vector<string> location;
-    cout << "Set up your Ships!" << endl;
-    cout << "Begin with entering the start point bla bla bla" << endl;
-    cin >> start;
-    cout << "Enter the end" << endl;
-    cin >> end;
+    while (player.ship_sizes_lefts.size() != 0){
+        print_board(player);
 
-    if (check_validity()){
-        for(auto const& value: player.ship_sizes_left) {
-            std::cout << value;
-        }
-        cout << endl;
-        location = createShipLocation(start, end);
-        player.add_ship(location);
+    
+        string start;
+        string end;
+        vector<string> location;
+        cout << "Set up your Ships!" << endl;
+        cout << "Ships left: " << player.ship_sizes_lefts.count() endl;
+        cout << "Begin with entering the start point bla bla bla" << endl;
+        cin >> start;
+        cout << "Enter the end" << endl;
+        cin >> end;
+
+        if (check_validity()){
+            for(auto const& value: player.ship_sizes_left) {
+                std::cout << value;
+            }
+            cout << endl;
+            location = createShipLocation(start, end);
+            player.add_ship(location);
 
 
-        for(auto const& value: player.ship_sizes_left) {
-            std::cout << value;
+            for(auto const& value: player.ship_sizes_left) {
+                std::cout << value;
+            }
         }
     }
 }

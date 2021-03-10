@@ -24,3 +24,11 @@ void Player::add_ship(vector<string> ship){
     }
 }
 
+bool Player::has_ship(string position){
+    if (count(ship_locations.begin(), ship_locations.end(), position)){
+        return true;
+    } else {
+        return false;
+    }
+    
+}
