@@ -32,6 +32,6 @@
 *.app
 
 #custom
-build/
+project/build/
 builddir/
 .vscode/

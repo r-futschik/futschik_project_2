@@ -22,6 +22,7 @@ class Player {
         Player(std::string name) : name(name){};
         void add_ship(std::vector<std::string> ship);
         bool has_ship(std::string position);
+        void print_ship_sizes_left();
 };
 
 

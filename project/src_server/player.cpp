@@ -32,3 +32,10 @@ bool Player::has_ship(string position){
     }
     
 }
+
+void Player::print_ship_sizes_left(){
+    cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 1) << " x 1 size Ships" << endl;
+    cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 2) << " x 2 size Ships" << endl;
+    cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 3) << " x 3 size Ships" << endl;
+    cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 4) << " x 4 size Ships" << endl;
+}

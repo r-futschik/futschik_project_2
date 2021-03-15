@@ -61,13 +61,21 @@ void GameMaster::print_board(Player player){
 
     std::cout << table << std::endl;
 
-    cout << player.name;
+    
 
 }
 
 
-bool check_validity(){
-    return true;
+bool check_validity(string start, string end){
+    return check_geometry(start, end);
+}
+
+bool check_geometry(string start, string end){
+    
+}
+
+bool check_ship_sizes_left(Player player) {
+
 }
 
 vector<string> createShipLocation(string start, string end){
@@ -102,7 +110,7 @@ vector<string> createShipLocation(string start, string end){
 }
 
 void GameMaster::set_ships(Player player){
-    while (player.ship_sizes_lefts.size() != 0){
+    while (player.ship_sizes_left.size() != 0){
         print_board(player);
 
     
@@ -110,24 +118,22 @@ void GameMaster::set_ships(Player player){
         string end;
         vector<string> location;
         cout << "Set up your Ships!" << endl;
-        cout << "Ships left: " << player.ship_sizes_lefts.count() endl;
+        cout << "Ships left: " << endl;
+        player.print_ship_sizes_left();
         cout << "Begin with entering the start point bla bla bla" << endl;
         cin >> start;
         cout << "Enter the end" << endl;
         cin >> end;
 
         if (check_validity()){
-            for(auto const& value: player.ship_sizes_left) {
-                std::cout << value;
-            }
+
             cout << endl;
             location = createShipLocation(start, end);
             player.add_ship(location);
 
 
-            for(auto const& value: player.ship_sizes_left) {
-                std::cout << value;
-            }
+        } else {
+            cout << "False Input try again" << endl;
         }
     }
 }
