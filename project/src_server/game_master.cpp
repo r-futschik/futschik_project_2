@@ -37,8 +37,8 @@ void GameMaster::print_board(Player player){
     table.add_row({"I", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
     table.add_row({"J", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
 
-    for (int i = 1; i < 10; i++){
-        for (int j = 1; j < 10; j++) {
+    for (int i = 1; i < 11; i++){
+        for (int j = 1; j < 11; j++) {
             if (player.has_ship(table[i][0].get_text() + table[0][j].get_text())){
                  table[i][j].set_text("*");
                  table[i][j].format()
@@ -143,16 +143,26 @@ vector<string> createShipLocation(string start, string end){
 
 
     for(int i = 0; location[i] != end; i++) {
+        cout << location[i] << endl;
+
 
         if (horizontal){
+            cout << "whaaat";
 
             location.push_back(start[0] + to_string(int(start[1]) - 48 + i + 1));
+
+
         } else {
             string t;
             t.push_back(char (int(start[0]) + i + 1));
 
-        
-            location.push_back(t + start[1]);
+            if (start.size() == 2){
+                location.push_back(t + start[1]);
+            } else {
+                location.push_back(t + start[1] + start[2]);
+            }
+
+            
 
             
         }
