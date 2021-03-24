@@ -65,18 +65,71 @@ void GameMaster::print_board(Player player){
 
 }
 
-
-bool check_validity(string start, string end){
-    return check_geometry(start, end);
-}
-
 bool check_geometry(string start, string end){
-    
+    bool horizontal{false};
+    cin.clear();
+    cin.ignore(1);
+
+
+
+    if (start[0] == end[0]) {
+        horizontal = true;
+    } else if(start[1] != end[1]){
+        cout << "Wrong input Ship can only be horizontal or vertical. Press Enter to proceed.";
+        cin.get();
+
+        return false;
+    }
+    if (int(start[0]) < 65 || int(start[0]) > 74){
+        cout << "Wrong input, only letters between A and J are allowed. Press Enter to proceed.";
+        cin.get();
+        return false;
+    } else if(stoi(start.substr(1, start.size() - 1)) < 1 || stoi(end.substr(1, end.size() - 1)) > 10){
+        cout << "Wrong input, only numbers between 1 and 10 are allowed. Press Enter to proceed.";
+        cin.get();
+        return false;
+    } else if (horizontal){
+        if (stoi(start.substr(1, start.size() - 1)) > stoi(end.substr(1, end.size() - 1))){
+            cout << "Wrong input Ship. Press Enter to proceed. ";
+            cin.get();
+            return false;
+        } 
+    } else {
+        if (int(start[0]) > int(end[0])){
+            cout << "Wrong input Ship. Press Enter to proceed. ";
+            cin.get();
+            return false;
+        } 
+    }
+
+
+    return true;
 }
 
-bool check_ship_sizes_left(Player player) {
+bool check_ship_size(vector<string> location, Player player) {
+    if (count(player.ship_sizes_left.begin(), player.ship_sizes_left.end(), location.size())){
+        return true;
+    } else {
+        cout << "Player doesnt have any ships of this size left. Press Enter to proceed";
+        cin.get();
+        return false;
+    }
 
 }
+
+
+bool check_overlap(vector<string> location, Player player){
+    for (unsigned int i = 0; i < location.size(); i++){
+        if (player.has_ship(location[i])){
+            cout << "Ship cant overlap with an already existing one. Press Enter to proceed";
+            cin.get();
+            return false;
+        }
+    }
+    return true;
+}
+
+
 
 vector<string> createShipLocation(string start, string end){
     vector<string> location;
@@ -125,16 +178,17 @@ void GameMaster::set_ships(Player player){
         cout << "Enter the end" << endl;
         cin >> end;
 
-        if (check_validity()){
+        if (check_geometry(start, end)){
 
             cout << endl;
+            
             location = createShipLocation(start, end);
-            player.add_ship(location);
 
+            if (check_ship_size(location, player) && check_overlap(location, player)){
+                player.add_ship(location);
+            }
 
-        } else {
-            cout << "False Input try again" << endl;
-        }
+        } 
     }
 }
 
