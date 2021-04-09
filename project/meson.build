@@ -14,19 +14,29 @@ inc_dir = include_directories(['include',
                               ])
 
 
+# begin protobuf: https://developers.google.com/protocol-buffers/
+protoc = find_program('protoc', required : true)
+protobuf_dep = dependency('protobuf', required : true)
 
-src_server = ['src_server/main_server.cpp', 'src_server/game_master.cpp', 'src_server/player.cpp']
+gen = generator(protoc, \
+  output    : ['@BASENAME@.pb.cc', '@BASENAME@.pb.h'],
+  arguments : ['--proto_path=@CURRENT_SOURCE_DIR@/messages/', '--cpp_out=@BUILD_DIR@', '@PLAINNAME@'])
 
-src_client = ['src_client/main_client.cpp']
+generated = gen.process('messages/player_message.proto')
+# end protobuf
+
+src_server = ['src_server/main_server.cpp', 'src_server/game_master.cpp', 'src_server/player.cpp', generated]
+
+src_client = ['src_client/main_client.cpp', 'src_server/game_master.cpp', 'src_server/player.cpp', generated]
 
 executable('start_server',
             sources : src_server,
             include_directories : inc_dir,
-            dependencies : thread_dep
+            dependencies : [thread_dep, protobuf_dep]
            )
 
 executable('start_client',
             sources : src_client,
             include_directories : inc_dir,
-            dependencies : thread_dep
+            dependencies : [thread_dep, protobuf_dep]
            )

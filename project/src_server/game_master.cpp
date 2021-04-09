@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <stdlib.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -19,10 +19,11 @@ using namespace tabulate;
 using namespace std;
 
 
+void GameMaster::store_ships(std::vector<std::string> player1_ship_locations, std::vector<std::string> player2_ship_locations){
 
+}
 
-
-void GameMaster::print_board(Player player){
+void GameMaster::print_setup_board(Player player){
     Table table;
 
     table.add_row({" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
@@ -46,6 +47,47 @@ void GameMaster::print_board(Player player){
             } 
 
         }
+    }
+
+
+
+    std::cout << table << std::endl;
+
+    
+
+}
+
+
+void GameMaster::print_game_board(Player player){
+    Table table;
+
+    table.add_row({" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "                         ", " ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
+    table.add_row({"A", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","A", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"B", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","B", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"C", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "        Schiffe          ","C", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"D", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "       Versenken         ","D", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"E", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","E", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"F", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","F", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"G", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","G", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"H", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","H", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"I", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","I", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+    table.add_row({"J", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "                         ","J", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "});
+
+    for (int i = 1; i < 11; i++){
+        for (int j = 1; j < 11; j++) {
+            if (player.has_ship(table[i][0].get_text() + table[0][j].get_text())){
+                 table[i][j].set_text("*");
+                 table[i][j].format()
+                            .font_background_color(Color::blue);
+            } 
+
+        }
+    }
+
+    for (int i = 1; i < 11; i++){
+        table[i][11].format()
+                    .font_align(FontAlign::center)
+                    .font_background_color(Color::blue);
     }
 
 
@@ -102,6 +144,9 @@ bool check_geometry(string start, string end){
         } 
     }
 
+    cout << flush;
+    system ("clear");
+
 
     return true;
 }
@@ -143,11 +188,10 @@ vector<string> createShipLocation(string start, string end){
 
 
     for(int i = 0; location[i] != end; i++) {
-        cout << location[i] << endl;
 
 
         if (horizontal){
-            cout << "whaaat";
+
 
             location.push_back(start[0] + to_string(int(start[1]) - 48 + i + 1));
 
@@ -174,7 +218,7 @@ vector<string> createShipLocation(string start, string end){
 
 void GameMaster::set_ships(Player player){
     while (player.ship_sizes_left.size() != 0){
-        print_board(player);
+        print_setup_board(player);
 
     
         string start;
@@ -183,7 +227,7 @@ void GameMaster::set_ships(Player player){
         cout << "Set up your Ships!" << endl;
         cout << "Ships left: " << endl;
         player.print_ship_sizes_left();
-        cout << "Begin with entering the start point bla bla bla" << endl;
+        cout << "Begin with entering the start point of your ship" << endl;
         cin >> start;
         cout << "Enter the end" << endl;
         cin >> end;

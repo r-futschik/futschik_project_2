@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message OpponentMsg {
+  string name = 1;
+}
+
+message SetupMsg {
+  repeated string ships = 1;
+}
