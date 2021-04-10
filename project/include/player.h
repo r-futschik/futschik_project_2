@@ -16,6 +16,7 @@ class Player {
         
         std::vector<std::string> ship_locations;
         std::vector<std::tuple<std::string, bool>> guesses;
+        std::vector<std::tuple<std::string, bool>> opponent_guesses;
     public:
         std::vector<std::string> get_ships();
         std::vector<int> ship_sizes_left{1};
@@ -24,6 +25,8 @@ class Player {
         void add_ship(std::vector<std::string> ship);
         bool has_ship(std::string position);
         void print_ship_sizes_left();
+        void make_a_guess(std::string position, bool sunk);
+        void save_opponent_guess(std::string position, bool sunk);
 };
 
 

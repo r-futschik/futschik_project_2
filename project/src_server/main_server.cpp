@@ -2,23 +2,43 @@
 #include <iostream>
 #include <thread>
 
-#include "base64.h"
-#include "asio.hpp"
+
+
+
 #include "player.h"
 #include "game_master.h"
+#include "asio.hpp"
+#include "base64.h"
 #include "CLI11.hpp"
 #include "player_message.pb.h"
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
-#include "tabulate/tabulate.hpp"
-#pragma GCC diagnostic pop
 
 
 using namespace std;
 using namespace asio;
 using namespace asio::ip;
 
+
+void start_game_server(vector<tcp::iostream*>& streams){
+    int i{1};
+    string data;
+    while (true){
+        i = not i;
+        *streams[i] >> data;
+        EndTurnMessage end_msg;
+        end_msg.ParseFromString(Base64::from_base64(data));
+
+        cout << end_msg.guess() << endl;
+        NextTurnMessage next_msg;
+        next_msg.set_guess(end_msg.guess());
+        next_msg.set_sunk(GameMaster::check_guess(end_msg.guess(), i));
+
+        cout << i << " "<< next_msg.sunk() << endl;
+        for (int i = 0; i < 2; i++){
+            *streams[i] << Base64::to_base64(next_msg.SerializeAsString()) << endl;
+        }
+    }
+}
 
 
 int main(int argc, char* argv[]) {
@@ -90,22 +110,16 @@ int main(int argc, char* argv[]) {
     
     GameMaster::store_ships(player1_ships, player2_ships);
 
-    StartGameMsg msg;
+    StartGameMessage msg;
 
     for (int i = 0; i < 2; i++){
-        if (i == 0){
-            msg.set_message("The Game has started. \nIts your Turn!");
-        } else {
-            msg.set_message("The Game has started. \nWait until your Turn!");
-        }
-
-        msg.set_first_player(not i);
+        msg.set_your_turn(not i);
         *streams[i] << Base64::to_base64(msg.SerializeAsString()) << endl;
     }
     
 
     
     
-    
+    start_game_server(streams);
     
 }

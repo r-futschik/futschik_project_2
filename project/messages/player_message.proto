@@ -4,9 +4,17 @@ message OpponentMsg {
   string name = 1;
 }
 
-message StartGameMsg {
-  string message = 1;
-  bool   first_player = 2;  
+message EndTurnMessage {
+  string guess = 1;
+}
+
+message StartGameMessage {
+  bool your_turn = 1;  
+}
+
+message NextTurnMessage {
+  string guess = 1;
+  bool sunk = 2;
 }
 
 message SetupMsg {

@@ -43,3 +43,15 @@ void Player::print_ship_sizes_left(){
 vector<string> Player::get_ships(){
     return this->ship_locations;
 }
+
+
+
+void Player::make_a_guess(std::string position, bool sunk){
+    this->guesses.push_back(make_tuple(position, sunk));
+}
+        
+        
+        
+void Player::save_opponent_guess(std::string position, bool sunk){
+    this->opponent_guesses.push_back(make_tuple(position, sunk));
+}

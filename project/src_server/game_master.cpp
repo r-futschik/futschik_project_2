@@ -4,17 +4,23 @@
 #include <vector>
 #include <map>
 
+
 #include "asio.hpp"
 #include "game_master.h"
 #include "player.h"
 #include "tabulate/table.hpp"
+#include "player_message.pb.h"
 
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#include "tabulate/tabulate.hpp"
+#pragma GCC diagnostic pop
 
 using namespace tabulate;
-
-
 using namespace std;
+using namespace asio;
+using namespace asio::ip;
 
 
 vector<string> GameMaster::player1_ship_locations;
@@ -247,14 +253,19 @@ void GameMaster::set_ships(Player& player){
 }
 
 
-
-void GameMaster::start_game(tcp::iostream strm, Player& player, bool your_turn){
-    print_game_board(player)
-    while (true){
-        if (your_turn){
-            //client 1
+bool GameMaster::check_guess(string guess, int player){
+    cout << "Its player " << player << endl;
+    if (player){
+        if (count(player1_ship_locations.begin(), player1_ship_locations.end(), guess)){
+            return true;
         } else {
-            //client 2
+            return false;
+        }
+    } else {
+        if (count(player2_ship_locations.begin(), player2_ship_locations.end(), guess)){
+            return true;
+        } else {
+            return false;
         }
     }
 }

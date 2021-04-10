@@ -2,16 +2,61 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+
+
+#include "game_master.h"
+#include "player.h"
 #include "asio.hpp"
 #include "base64.h"
-#include "player.h"
-#include "game_master.h"
 #include "CLI11.hpp"
 #include "player_message.pb.h"
 
 using namespace std;
 using namespace asio::ip;
 
+void start_game(tcp::iostream& strm, Player& player){
+    string guess;
+    string data;
+    getline(strm, data);
+
+    StartGameMessage msg;
+    msg.ParseFromString(Base64::from_base64(data));
+
+
+    bool your_turn = msg.your_turn();
+
+    while (true){
+        GameMaster::print_game_board(player);
+        if (your_turn){
+
+            cout << "Enter your guess!" << endl;
+            cin >> guess;
+
+            EndTurnMessage end_msg;
+            end_msg.set_guess(guess);
+
+            strm << Base64::to_base64(end_msg.SerializeAsString()) << "\n";
+
+            string next_turn;
+            getline(strm, next_turn);
+
+            NextTurnMessage next_msg;
+            next_msg.ParseFromString(Base64::from_base64(next_turn));
+            player.make_a_guess(next_msg.guess(), next_msg.sunk());
+            your_turn = false;
+
+        } else {
+            cout << "Its your Opponents turn!" << endl;
+            string next_turn;
+            getline(strm, next_turn);
+
+            NextTurnMessage next_msg;
+            next_msg.ParseFromString(Base64::from_base64(next_turn));
+            player.save_opponent_guess(next_msg.guess(), next_msg.sunk());
+            your_turn = true;
+        }
+    }
+}
 
 int main(int argc, char* argv[]) {
 
@@ -84,15 +129,9 @@ int main(int argc, char* argv[]) {
     
         if (strm){
 
-            string data;
-            
-            getline(strm, data);
 
-            StartGameMsg msg;
-            msg.ParseFromString(Base64::from_base64(data));
-            cout << msg.message() << endl;
+            start_game(strm, player);
 
-            GameMaster::start_game(strm);
         }
     
     } catch (exception& e) {
