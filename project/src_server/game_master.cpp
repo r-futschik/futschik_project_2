@@ -89,6 +89,38 @@ void GameMaster::print_game_board(Player player){
                             .font_background_color(Color::blue);
             } 
 
+            switch (player.opponent_has_a_guess(table[i][0].get_text() + table[0][j].get_text())) {
+                case 1:
+                    table[i][j].format()
+                                .font_background_color(Color::red);
+                    break;
+                case 2:
+                    table[i][j].set_text("X");
+                    table[i][j].format()
+                            .font_background_color(Color::red);
+                    break;
+
+            }
+
+        }
+    }
+
+    for (int i = 1; i < 11; i++){
+        for (int j = 12; j < 22; j++) {
+
+
+            switch (player.has_a_guess(table[i][0].get_text() + table[0][j].get_text())) {
+                case 1:
+                    table[i][j].format()
+                                .font_background_color(Color::red);
+                    break;
+                case 2:
+                    table[i][j].set_text("X");
+                    table[i][j].format()
+                            .font_background_color(Color::red);
+                    break;
+            }
+
         }
     }
 
@@ -226,7 +258,7 @@ void GameMaster::set_ships(Player& player){
     while (player.ship_sizes_left.size() != 0){
         print_setup_board(player);
 
-    
+
         string start;
         string end;
         vector<string> location;

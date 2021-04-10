@@ -47,11 +47,43 @@ vector<string> Player::get_ships(){
 
 
 void Player::make_a_guess(std::string position, bool sunk){
-    this->guesses.push_back(make_tuple(position, sunk));
+    guesses.push_back(make_tuple(position, sunk));
 }
         
         
         
 void Player::save_opponent_guess(std::string position, bool sunk){
-    this->opponent_guesses.push_back(make_tuple(position, sunk));
+    opponent_guesses.push_back(make_tuple(position, sunk));
+}
+
+
+int Player::has_a_guess(string position){
+    for (unsigned int i = 0; i < guesses.size(); i++){
+        if (position == get<0>(guesses[i])){
+            if (get<1>(guesses[i])){
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+    }
+    
+    return 0;
+}
+
+
+int Player::opponent_has_a_guess(string position){ 
+    for (unsigned int i = 0; i < opponent_guesses.size(); i++){
+
+        if (position == get<0>(opponent_guesses[i])){
+            if (get<1>(opponent_guesses[i])){
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+    }
+    
+    return 0;
+
 }
