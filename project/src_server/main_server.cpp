@@ -60,8 +60,52 @@ int main(int argc, char* argv[]) {
         OpponentMsg msg;
         msg.set_name("Game is starting...");
             
-        (*strm) << Base64::to_base64(msg.SerializeAsString()) << "\n";
+        (*strm) << Base64::to_base64(msg.SerializeAsString()) << endl;
     }
+
+    vector<string> player1_ships;
+    vector<string> player2_ships;
+    for(int i = 0; i < 2; i++) {
+        string data;
+        
+        *streams[i] >> data;
+
+        SetupMsg msg;
+        msg.ParseFromString(Base64::from_base64(data));
+
+        for (int j = 0; j < msg.ships_size(); j++){
+            if (i == 0){
+                player1_ships.push_back(msg.ships(j));
+            } else {
+                player2_ships.push_back(msg.ships(j));
+            }
+            
+
+        }
+
+    
+
+
+    }
+    
+    GameMaster::store_ships(player1_ships, player2_ships);
+
+    StartGameMsg msg;
+
+    for (int i = 0; i < 2; i++){
+        if (i == 0){
+            msg.set_message("The Game has started. \nIts your Turn!");
+        } else {
+            msg.set_message("The Game has started. \nWait until your Turn!");
+        }
+
+        msg.set_first_player(not i);
+        *streams[i] << Base64::to_base64(msg.SerializeAsString()) << endl;
+    }
+    
+
+    
+    
     
     
 }

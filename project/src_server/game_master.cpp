@@ -4,11 +4,9 @@
 #include <vector>
 #include <map>
 
-
+#include "asio.hpp"
 #include "game_master.h"
 #include "player.h"
-
-
 #include "tabulate/table.hpp"
 
 
@@ -19,8 +17,12 @@ using namespace tabulate;
 using namespace std;
 
 
-void GameMaster::store_ships(std::vector<std::string> player1_ship_locations, std::vector<std::string> player2_ship_locations){
+vector<string> GameMaster::player1_ship_locations;
+vector<string> GameMaster::player2_ship_locations;
 
+void GameMaster::store_ships(vector<string> player1_ship_locations, vector<string> player2_ship_locations){
+    GameMaster::player1_ship_locations = player1_ship_locations; 
+    GameMaster::player2_ship_locations = player2_ship_locations;
 }
 
 void GameMaster::print_setup_board(Player player){
@@ -144,8 +146,6 @@ bool check_geometry(string start, string end){
         } 
     }
 
-    cout << flush;
-    system ("clear");
 
 
     return true;
@@ -216,7 +216,7 @@ vector<string> createShipLocation(string start, string end){
     return location;
 }
 
-void GameMaster::set_ships(Player player){
+void GameMaster::set_ships(Player& player){
     while (player.ship_sizes_left.size() != 0){
         print_setup_board(player);
 
@@ -247,3 +247,14 @@ void GameMaster::set_ships(Player player){
 }
 
 
+
+void GameMaster::start_game(tcp::iostream strm, Player& player, bool your_turn){
+    print_game_board(player)
+    while (true){
+        if (your_turn){
+            //client 1
+        } else {
+            //client 2
+        }
+    }
+}

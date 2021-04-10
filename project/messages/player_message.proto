@@ -4,6 +4,11 @@ message OpponentMsg {
   string name = 1;
 }
 
+message StartGameMsg {
+  string message = 1;
+  bool   first_player = 2;  
+}
+
 message SetupMsg {
   repeated string ships = 1;
 }

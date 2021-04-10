@@ -18,7 +18,7 @@ class GameMaster {
     public:
         static void print_setup_board(Player player);
         static void print_game_board(Player player);
-        static void set_ships(Player player);
+        static void set_ships(Player& player);
         static void store_ships(std::vector<std::string> player1_ship_locations, std::vector<std::string> player2_ship_locations);
 
 };

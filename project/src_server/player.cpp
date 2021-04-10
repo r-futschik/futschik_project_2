@@ -39,3 +39,7 @@ void Player::print_ship_sizes_left(){
     cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 3) << " x 3 size Ships" << endl;
     cout << count(ship_sizes_left.begin(), ship_sizes_left.end(), 4) << " x 4 size Ships" << endl;
 }
+
+vector<string> Player::get_ships(){
+    return this->ship_locations;
+}
