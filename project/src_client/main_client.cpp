@@ -14,6 +14,8 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
+#include "json.hpp"
+
 
 using namespace std;
 using namespace asio::ip;
@@ -27,6 +29,7 @@ auto resultFileLogger =  spdlog::basic_logger_mt("logWriter", "../logs.txt");
 
 
 
+// main game cycle, in each cycle it is either the clients turn, or not in which case he has to wait.
 void start_game(tcp::iostream& strm, Player& player){
     auto fileErrorLogger =  spdlog::basic_logger_mt("DisconnectErrorLogWriter", "../error_logs.txt");
     string guess;
@@ -43,7 +46,6 @@ void start_game(tcp::iostream& strm, Player& player){
     cout << msg.disconnect() << endl;
     if (not msg.disconnect()){
         while (game_over == 0){
-            GameMaster::print_game_board(player);
             
             if (not next_msg.disconnect()){
 
@@ -89,6 +91,7 @@ void start_game(tcp::iostream& strm, Player& player){
     }
 }
 
+// Client sends his name to the server and registers to play
 void connect_to_server(tcp::iostream& strm, string name){
     if(strm) {
         cout << "Waiting for a Opponent to join..." << endl;
@@ -111,6 +114,7 @@ void connect_to_server(tcp::iostream& strm, string name){
 
 }
 
+// Client sets up his ships with toml
 void set_toml_ships(string toml_path, Player& player){
 
     const auto data  = toml::parse(toml_path);
@@ -120,6 +124,7 @@ void set_toml_ships(string toml_path, Player& player){
 
 }
 
+// Client sends his ships after setup
 void send_ships_to_server(tcp::iostream& strm, Player& player){
 
     if(strm) {
@@ -145,6 +150,8 @@ int main(int argc, char* argv[]) {
     string port{"1113"};
     string name;
 
+    //bool save;
+    //string save_path{""};
     string path{""};
     
     
@@ -153,6 +160,8 @@ int main(int argc, char* argv[]) {
     app.add_option("-n,--name", name, "Your Username", true)->required();
     app.add_option("-p,--port", port, "Port to connect to(Default 1113)", false);
     app.add_option("--toml_path", path, "(Recommended) Path to the toml configuration file. Check how to set up a toml file in README.md")->check(CLI::ExistingFile);
+    //app.add_option("-s, --save", save, "Save your wins into an json file");
+    //app.add_option("--save_path", save, "Specify the file you want to save your stats in. Saves will otherwise use the default path")->check(CLI::ExistingFile);
 
     CLI11_PARSE(app, argc, argv);
 

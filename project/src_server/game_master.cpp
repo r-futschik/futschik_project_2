@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 
-
 #include "asio.hpp"
 #include "game_master.h"
 #include "player.h"
@@ -31,12 +30,17 @@ vector<string> GameMaster::player2_ship_locations;
 
 auto fileErrorLogger =  spdlog::basic_logger_mt("errorLogWriter", "../error_logs.txt");
 
+void clear_screen(){
+    cout << string( 100, '\n' );
+}
 
+// store the ships of both players
 void GameMaster::store_ships(vector<string> player1_ship_locations, vector<string> player2_ship_locations){
     GameMaster::player1_ship_locations = player1_ship_locations; 
     GameMaster::player2_ship_locations = player2_ship_locations;
 }
 
+// prints the game board only for setting up ships manually
 void GameMaster::print_setup_board(Player player){
     Table table;
 
@@ -71,8 +75,10 @@ void GameMaster::print_setup_board(Player player){
 
 }
 
-
+// prints the game board during playing
 void GameMaster::print_game_board(Player player){
+    cout << "flushing" << flush;
+    clear_screen();
     Table table;
 
     table.add_row({" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "                         ", " ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
@@ -144,6 +150,7 @@ void GameMaster::print_game_board(Player player){
 
 }
 
+// checks if the given ship location is correct
 bool check_geometry(string start, string end, bool toml){
     bool horizontal{false};
     if (not toml) {
@@ -222,6 +229,7 @@ bool check_geometry(string start, string end, bool toml){
     return true;
 }
 
+// checks if the given ship size is correct
 bool check_ship_size(vector<string> location, Player player, bool toml) {
     if (count(player.ship_sizes_left.begin(), player.ship_sizes_left.end(), location.size())){
         return true;
@@ -239,7 +247,7 @@ bool check_ship_size(vector<string> location, Player player, bool toml) {
 
 }
 
-
+// checks if the given ship location overlaps with an existing ship
 bool check_overlap(vector<string> location, Player player, bool toml){
     for (unsigned int i = 0; i < location.size(); i++){
         if (player.has_ship(location[i])){
@@ -258,7 +266,7 @@ bool check_overlap(vector<string> location, Player player, bool toml){
 }
 
 
-
+// creates the location vektor to store
 vector<string> createShipLocation(string start, string end){
     vector<string> location;
     bool horizontal = false;
@@ -299,6 +307,7 @@ vector<string> createShipLocation(string start, string end){
     return location;
 }
 
+// set ships manually
 void GameMaster::set_ships(Player& player){
     while (player.ship_sizes_left.size() != 0){
         print_setup_board(player);
@@ -330,6 +339,7 @@ void GameMaster::set_ships(Player& player){
 }
 
 
+// set ships with toml
 void GameMaster::set_ships_with_toml(Player& player, vector<vector<string>> ships){
 
 
@@ -352,6 +362,7 @@ void GameMaster::set_ships_with_toml(Player& player, vector<vector<string>> ship
 
 }
 
+// check if the guess is correct
 bool GameMaster::check_guess(string guess, int player){
 
     if (player){
@@ -370,6 +381,7 @@ bool GameMaster::check_guess(string guess, int player){
         }
     }
 }
+
 
 
 int GameMaster::get_player1_ships_left(){
