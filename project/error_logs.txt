@@ -1,1 +1,30 @@
 [2021-04-11 16:56:21.901] [errorLogWriter] [error] Wrong input, only numbers between 1 and 10 are allowed.
+[2021-04-11 17:05:08.494] [ClientErrorLogWriter] [error] Server is offline
+[2021-04-11 17:05:14.348] [ClientErrorLogWriter] [error] Server is offline
+[2021-04-11 17:57:48.847] [errorLogWriter] [error] Wrong number of Ships
+[2021-04-11 18:00:01.753] [errorLogWriter] [error] Wrong input Ship can only be horizontal or vertical.
+[2021-04-11 21:37:25.667] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:42:04.197] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:42:04.197] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:43:58.837] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:43:58.837] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:45:16.797] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:45:16.797] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:49:45.987] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:49:45.987] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:50:28.657] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:50:28.657] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:53:13.387] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:53:13.387] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:56:36.217] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:56:40.306] [ClientErrorLogWriter] [error] Server is offline
+[2021-04-11 21:56:52.237] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 21:56:52.237] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:04:15.107] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:04:40.097] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:04:40.097] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:07:30.017] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:07:30.017] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:09:15.637] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:09:15.637] [DisconnectErrorLogWriter] [error] Your Opponent disconnected
+[2021-04-11 22:19:47.667] [DisconnectErrorLogWriter] [error] Your Opponent disconnected

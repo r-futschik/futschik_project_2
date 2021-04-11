@@ -19,7 +19,7 @@ class Player {
         std::vector<std::tuple<std::string, bool>> opponent_guesses;
     public:
         std::vector<std::string> get_ships();
-        std::vector<int> ship_sizes_left{1};
+        std::vector<int> ship_sizes_left{1, 1, 1, 1, 2, 2, 2, 3, 3, 4};
         std::string name;
         Player(std::string name) : name(name){};
         void add_ship(std::vector<std::string> ship);

@@ -1,4 +1,13 @@
 #There are four 1 size ships, three 2 size ships, two 3 size ships and one 4 size ship
 
-ships = [
-    ["A1", "A1"]]
+ships = [["G1", "G3"],
+         ["C3", "C3"],
+         ["I3", "I6"],
+         ["B5", "B5"],
+         ["D5", "D7"],
+         ["F6", "F6"],
+         ["F8", "F9"],
+         ["E2", "E2"],
+         ["A10", "B10"],
+         ["H10", "I10"],
+        ]

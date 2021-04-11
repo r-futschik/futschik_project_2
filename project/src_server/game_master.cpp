@@ -92,7 +92,7 @@ void GameMaster::print_game_board(Player player){
             if (player.has_ship(table[i][0].get_text() + table[0][j].get_text())){
                  table[i][j].set_text("*");
                  table[i][j].format()
-                            .font_background_color(Color::blue);
+                            .font_background_color(Color::green);
             } 
 
             switch (player.opponent_has_a_guess(table[i][0].get_text() + table[0][j].get_text())) {
@@ -152,7 +152,15 @@ bool check_geometry(string start, string end, bool toml){
     }
     
 
-
+    if (start.size() < 2 || start.size() > 3 || end.size() < 2 || end.size() > 3){
+        if(not toml){
+            cout << "Wrong Ship input. Press Enter to proceed.";
+            cin.get();
+        } else {
+            fileErrorLogger->error("One or more Ships have too many/little characters");
+        }
+        return false;
+    }
 
     if (start[0] == end[0]) {
         horizontal = true;
@@ -345,7 +353,7 @@ void GameMaster::set_ships_with_toml(Player& player, vector<vector<string>> ship
 }
 
 bool GameMaster::check_guess(string guess, int player){
-    cout << "Its player " << player << endl;
+
     if (player){
         if (count(player1_ship_locations.begin(), player1_ship_locations.end(), guess)){
             player1_ship_locations.erase(find(player1_ship_locations.begin(), player1_ship_locations.end(), guess));

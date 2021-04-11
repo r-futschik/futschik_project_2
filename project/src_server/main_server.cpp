@@ -30,14 +30,14 @@ void start_game_server(vector<tcp::iostream*>& streams){
         i = not i;
         *streams[i] >> data;
         EndTurnMessage end_msg;
+        
         end_msg.ParseFromString(Base64::from_base64(data));
 
-        cout << end_msg.guess() << endl;
+
         
         next_msg.set_guess(end_msg.guess());
         next_msg.set_sunk(GameMaster::check_guess(end_msg.guess(), i));
-
-
+        next_msg.set_disconnect(not (*streams[0] && *streams[1]));
         if (GameMaster::get_player1_ships_left() == 0){
             next_msg.set_game_over(2);
         }
@@ -127,9 +127,14 @@ int main(int argc, char* argv[]) {
 
     StartGameMessage msg;
 
-    for (int i = 0; i < 2; i++){
+    for (unsigned int i = 0; i < streams.size(); i++){
         msg.set_your_turn(not i);
+
+
+        msg.set_disconnect(not (*streams[0] && *streams[1]));
+        
         *streams[i] << Base64::to_base64(msg.SerializeAsString()) << endl;
+
     }
     
 

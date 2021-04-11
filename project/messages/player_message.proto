@@ -10,12 +10,14 @@ message EndTurnMessage {
 
 message StartGameMessage {
   bool your_turn = 1;  
+  bool disconnect = 2;
 }
 
 message NextTurnMessage {
   string guess = 1;
   bool sunk = 2;
   int32 game_over = 3;
+  bool disconnect = 4;
 }
 
 message SetupMsg {
