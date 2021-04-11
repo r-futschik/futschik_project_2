@@ -201,31 +201,6 @@ int main(int argc, char* argv[]) {
 
     
 
-
-        if(strm) {
-
-            SetupMsg msg;
-
-            msg.mutable_ships()->Reserve(player.get_ships().size());
-
-            
-            for(const auto ship: player.get_ships()) {
-
-                msg.add_ships(ship);
-
-            }
-
-            strm << Base64::to_base64(msg.SerializeAsString()) << "\n";
-
-
-
-                
-        } else {
-            cout << "Couldnt not connect to server!" << endl;
-            return 1;
-        }
-    
-        
     
     
 
