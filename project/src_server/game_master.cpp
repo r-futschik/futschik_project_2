@@ -10,7 +10,9 @@
 #include "player.h"
 #include "tabulate/table.hpp"
 #include "player_message.pb.h"
-
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
@@ -23,8 +25,12 @@ using namespace asio;
 using namespace asio::ip;
 
 
+
 vector<string> GameMaster::player1_ship_locations;
 vector<string> GameMaster::player2_ship_locations;
+
+auto fileErrorLogger =  spdlog::basic_logger_mt("errorLogWriter", "../error_logs.txt");
+
 
 void GameMaster::store_ships(vector<string> player1_ship_locations, vector<string> player2_ship_locations){
     GameMaster::player1_ship_locations = player1_ship_locations; 
@@ -132,54 +138,73 @@ void GameMaster::print_game_board(Player player){
 
 
 
-    // Set width of cells in each column
-
-
-    // Iterate over cells in the first row
-    
-
-    // Iterate over rows in the table
-    
-
     std::cout << table << std::endl;
 
     
 
 }
 
-bool check_geometry(string start, string end){
+bool check_geometry(string start, string end, bool toml){
     bool horizontal{false};
-    cin.clear();
-    cin.ignore(1);
+    if (not toml) {
+        cin.clear();
+        cin.ignore(1);
+    }
+    
 
 
 
     if (start[0] == end[0]) {
         horizontal = true;
     } else if(start[1] != end[1]){
-        cout << "Wrong input Ship can only be horizontal or vertical. Press Enter to proceed.";
-        cin.get();
+        if(not toml){
+            cout << "Wrong input Ship can only be horizontal or vertical. Press Enter to proceed.";
+            cin.get();
+        } else {
+            fileErrorLogger->error("Wrong input Ship can only be horizontal or vertical.");
+        }
 
         return false;
     }
     if (int(start[0]) < 65 || int(start[0]) > 74){
-        cout << "Wrong input, only letters between A and J are allowed. Press Enter to proceed.";
-        cin.get();
+        if (not toml){
+            cout << "Wrong input, only letters between A and J are allowed. Press Enter to proceed.";
+            cin.get();
+        } else {
+            fileErrorLogger->error("Wrong input, only letters between A and J are allowed.");
+        }
+        
         return false;
     } else if(stoi(start.substr(1, start.size() - 1)) < 1 || stoi(end.substr(1, end.size() - 1)) > 10){
-        cout << "Wrong input, only numbers between 1 and 10 are allowed. Press Enter to proceed.";
+        if (not toml){
+            cout << "Wrong input, only numbers between 1 and 10 are allowed. Press Enter to proceed.";
         cin.get();
+        } else {
+            fileErrorLogger->error("Wrong input, only numbers between 1 and 10 are allowed.");
+        }
+        
         return false;
     } else if (horizontal){
         if (stoi(start.substr(1, start.size() - 1)) > stoi(end.substr(1, end.size() - 1))){
-            cout << "Wrong input Ship. Press Enter to proceed. ";
-            cin.get();
+            if (not toml) {
+                cout << "Wrong input Ship. Press Enter to proceed. ";
+                cin.get();
+            } else {
+                fileErrorLogger->error("Wrong input, Ships have to be formated like this: (A1, A3), rather than this (A3, A1)");
+            }
+            
             return false;
         } 
     } else {
         if (int(start[0]) > int(end[0])){
-            cout << "Wrong input Ship. Press Enter to proceed. ";
-            cin.get();
+            if (not toml) {
+                cout << "Wrong input Ship. Press Enter to proceed. ";
+                cin.get();
+            } else {
+                fileErrorLogger->error("Wrong input, Ships have to be formated like this: (A1, C1), rather than this: (C1, A1)");
+            
+            }
+            
             return false;
         } 
     }
@@ -189,23 +214,35 @@ bool check_geometry(string start, string end){
     return true;
 }
 
-bool check_ship_size(vector<string> location, Player player) {
+bool check_ship_size(vector<string> location, Player player, bool toml) {
     if (count(player.ship_sizes_left.begin(), player.ship_sizes_left.end(), location.size())){
         return true;
     } else {
-        cout << "Player doesnt have any ships of this size left. Press Enter to proceed";
-        cin.get();
+        if (not toml){
+            cout << "Player doesnt have any ships of this size left. Press Enter to proceed";
+            cin.get();
+        } else {
+            fileErrorLogger->error("Wrong number of Ships");
+            
+        }
+        
         return false;
     }
 
 }
 
 
-bool check_overlap(vector<string> location, Player player){
+bool check_overlap(vector<string> location, Player player, bool toml){
     for (unsigned int i = 0; i < location.size(); i++){
         if (player.has_ship(location[i])){
-            cout << "Ship cant overlap with an already existing one. Press Enter to proceed";
-            cin.get();
+            if (not toml){
+                cout << "Ship cant overlap with an already existing one. Press Enter to proceed";
+                cin.get();
+            } else {
+                fileErrorLogger->error("A Ship overlaps with an already existing one");
+            
+            }
+            
             return false;
         }
     }
@@ -270,13 +307,13 @@ void GameMaster::set_ships(Player& player){
         cout << "Enter the end" << endl;
         cin >> end;
 
-        if (check_geometry(start, end)){
+        if (check_geometry(start, end, false)){
 
             cout << endl;
             
             location = createShipLocation(start, end);
 
-            if (check_ship_size(location, player) && check_overlap(location, player)){
+            if (check_ship_size(location, player, false) && check_overlap(location, player, false)){
                 player.add_ship(location);
             }
 
@@ -284,6 +321,28 @@ void GameMaster::set_ships(Player& player){
     }
 }
 
+
+void GameMaster::set_ships_with_toml(Player& player, vector<vector<string>> ships){
+
+
+    for (unsigned int i = 0; i < ships.size(); i++){
+        vector<string> location;
+
+        if (check_geometry(ships[i][0], ships[i][1], true)){
+            location = createShipLocation(ships[i][0], ships[i][1]);
+
+            if (check_ship_size(location, player, true) && check_overlap(location, player, true)){
+                player.add_ship(location);
+            } else {
+
+                throw "Toml file is not set up correctly, check README.md on how to set up toml files";
+            }
+        } else {
+            throw "Toml file is not set up correctly, check README.md on how to set up toml files";
+        }
+    }
+
+}
 
 bool GameMaster::check_guess(string guess, int player){
     cout << "Its player " << player << endl;

@@ -11,7 +11,9 @@
 #include "base64.h"
 #include "CLI11.hpp"
 #include "player_message.pb.h"
-
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 
 using namespace std;

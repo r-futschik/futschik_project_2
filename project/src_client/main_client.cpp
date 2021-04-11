@@ -11,10 +11,21 @@
 #include "toml.hpp"
 #include "CLI11.hpp"
 #include "player_message.pb.h"
-
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 using namespace std;
 using namespace asio::ip;
+
+
+auto consoleErrorLogger = spdlog::stderr_color_mt("console");
+
+
+
+auto resultFileLogger =  spdlog::basic_logger_mt("logWriter", "../logs.txt");
+
+
 
 void start_game(tcp::iostream& strm, Player& player){
     string guess;
@@ -62,12 +73,49 @@ void start_game(tcp::iostream& strm, Player& player){
     }
 }
 
+void connect_to_server(tcp::iostream& strm, string name){
+    try {
+
+
+        if(strm) {
+            strm << name << endl; 
+
+            string data;
+            
+            getline(strm, data);
+
+            OpponentMsg msg;
+            msg.ParseFromString(Base64::from_base64(data));
+            cout << msg.name() << endl;
+
+
+        } else {
+            cerr << "Couldnt connect to server!" << endl;
+        }
+    } catch (exception& e) {
+        cout << "Exception: {}\n" << e.what();
+
+    }
+}
+
+void set_toml_ships(string toml_path, Player& player){
+
+    const auto data  = toml::parse(toml_path);
+    const auto ships = toml::find<vector<vector<string>>>(data, "ships");
+
+    GameMaster::set_ships_with_toml(player, ships);
+
+
+    
+    
+}
+
 int main(int argc, char* argv[]) {
 
     string port{"1113"};
     string name;
 
-    string path;
+    string path{""};
     
     
     CLI::App app("Battleships");
@@ -78,33 +126,32 @@ int main(int argc, char* argv[]) {
 
     CLI11_PARSE(app, argc, argv);
 
-    cout << "Waiting for other player to join..." << endl;
-    try {
 
-        tcp::iostream strm{"localhost", port};
+    Player player = Player(name);
+    tcp::iostream strm{"localhost", port};
 
-        if(strm) {
-            strm << name << endl; 
-
-
-            string data;
-            
-            getline(strm, data);
-
-            OpponentMsg msg;
-            msg.ParseFromString(Base64::from_base64(data));
-            cout << msg.name() << endl;
-            
-
-
-            
-
-        } else {
-            cout << "Couldnt connect to server!" << endl;
-            return 1;
+    if (path != ""){
+        try {
+            set_toml_ships(path, player);
+        } catch (const char* msg) {
+            consoleErrorLogger->set_level(spdlog::level::err);
+            consoleErrorLogger->error(msg);
+            consoleErrorLogger->error("Check the Error-log for more Information");
+            return EXIT_FAILURE;
         }
 
-        Player player = Player(name);
+
+    }
+    
+
+
+    cout << "Waiting for other player to join..." << endl;
+    connect_to_server(strm, name);
+        
+
+    
+
+
 
         GameMaster::set_ships(player);
 
@@ -141,9 +188,7 @@ int main(int argc, char* argv[]) {
 
         }
     
-    } catch (exception& e) {
-        cout << "Exception: {}\n" << e.what();
-    }
+    
 
     
 }
