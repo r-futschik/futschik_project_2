@@ -22,18 +22,31 @@ using namespace asio::ip;
 void start_game_server(vector<tcp::iostream*>& streams){
     int i{1};
     string data;
-    while (true){
+    NextTurnMessage next_msg;
+    next_msg.set_game_over(0);
+    while (next_msg.game_over() == 0){
         i = not i;
         *streams[i] >> data;
         EndTurnMessage end_msg;
         end_msg.ParseFromString(Base64::from_base64(data));
 
         cout << end_msg.guess() << endl;
-        NextTurnMessage next_msg;
+        
         next_msg.set_guess(end_msg.guess());
         next_msg.set_sunk(GameMaster::check_guess(end_msg.guess(), i));
 
-        cout << i << " "<< next_msg.sunk() << endl;
+
+        if (GameMaster::get_player1_ships_left() == 0){
+            next_msg.set_game_over(2);
+        }
+
+        if (GameMaster::get_player2_ships_left() == 0){
+            next_msg.set_game_over(1);
+        }
+
+
+
+
         for (int i = 0; i < 2; i++){
             *streams[i] << Base64::to_base64(next_msg.SerializeAsString()) << endl;
         }

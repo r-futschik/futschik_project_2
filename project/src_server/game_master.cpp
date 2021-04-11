@@ -289,15 +289,26 @@ bool GameMaster::check_guess(string guess, int player){
     cout << "Its player " << player << endl;
     if (player){
         if (count(player1_ship_locations.begin(), player1_ship_locations.end(), guess)){
+            player1_ship_locations.erase(find(player1_ship_locations.begin(), player1_ship_locations.end(), guess));
             return true;
         } else {
             return false;
         }
     } else {
         if (count(player2_ship_locations.begin(), player2_ship_locations.end(), guess)){
+            player2_ship_locations.erase(find(player2_ship_locations.begin(), player2_ship_locations.end(), guess));
             return true;
         } else {
             return false;
         }
     }
+}
+
+
+int GameMaster::get_player1_ships_left(){
+    return player1_ship_locations.size();
+}
+
+int GameMaster::get_player2_ships_left(){
+    return player2_ship_locations.size();
 }

@@ -25,6 +25,8 @@ class GameMaster {
         static void store_ships(std::vector<std::string> player1_ship_locations, std::vector<std::string> player2_ship_locations);
         static void start_game(tcp::iostream& strm, Player& player);
         static bool check_guess(std::string guess, int player);
+        static int get_player1_ships_left();
+        static int get_player2_ships_left();
 };
 
 

@@ -15,6 +15,7 @@ message StartGameMessage {
 message NextTurnMessage {
   string guess = 1;
   bool sunk = 2;
+  int32 game_over = 3;
 }
 
 message SetupMsg {

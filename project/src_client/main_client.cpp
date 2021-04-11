@@ -22,11 +22,13 @@ void start_game(tcp::iostream& strm, Player& player){
     StartGameMessage msg;
     msg.ParseFromString(Base64::from_base64(data));
 
+    int game_over{0};
 
     bool your_turn = msg.your_turn();
 
-    while (true){
+    while (game_over == 0){
         GameMaster::print_game_board(player);
+        NextTurnMessage next_msg;
         if (your_turn){
 
             cout << "Enter your guess!" << endl;
@@ -40,7 +42,6 @@ void start_game(tcp::iostream& strm, Player& player){
             string next_turn;
             getline(strm, next_turn);
 
-            NextTurnMessage next_msg;
             next_msg.ParseFromString(Base64::from_base64(next_turn));
             player.make_a_guess(next_msg.guess(), next_msg.sunk());
             your_turn = false;
@@ -50,11 +51,12 @@ void start_game(tcp::iostream& strm, Player& player){
             string next_turn;
             getline(strm, next_turn);
 
-            NextTurnMessage next_msg;
+
             next_msg.ParseFromString(Base64::from_base64(next_turn));
             player.save_opponent_guess(next_msg.guess(), next_msg.sunk());
             your_turn = true;
         }
+        game_over = next_msg.game_over();
     }
 }
 
@@ -94,7 +96,7 @@ int main(int argc, char* argv[]) {
             
 
         } else {
-            cout << "Couldnt not connect to server!" << endl;
+            cout << "Couldnt connect to server!" << endl;
             return 1;
         }
 
@@ -129,6 +131,7 @@ int main(int argc, char* argv[]) {
     
         if (strm){
 
+            cout << "Waiting for the other players to set up his ships..." << endl;
 
             start_game(strm, player);
 
