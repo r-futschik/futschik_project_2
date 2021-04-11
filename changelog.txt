@@ -1,0 +1,86 @@
+* Changelog
+
+** [Unreleased]
+*** Added
+- Added json to track stats
+- Added Documentation
+
+
+** [0.9.0] - 2021-04-11
+*** Added
+- Player can add all his ships with toml
+- Now logging all errors with spdlog
+
+
+** [0.6.0] - 2021-04-11
+*** Added
+- Set up toml
+*** Changed
+- Added a wincondition to the game cycle
+- Updated readme
+
+
+** [0.5.0] - 2021-04-11
+*** Added
+- Game Cycle with Clients and Server works
+*** Changed
+- Players can see guesses on both boards
+
+
+** [0.4.0] - 2021-04-10
+*** Added
+- Working Client-Server Connection where the client can send his ships
+*** Changed
+- Changed Player and GameMaster classes to fit the Client-Server communication
+
+** [0.3.0] - 2021-04-9
+*** Added
+- Set up Protobuf
+
+
+
+** [0.2.0] - 2021-03-24
+*** Changed
+- Player can set up his ships with no bugs
+
+
+
+** [0.1.1.1] - 2021-03-15
+*** Changed
+- Corrected gitignore to ignore build folder contents
+
+
+** [0.1.1] - 2021-03-10
+*** Changed
+- Player can add ships via User input
+
+
+
+** [0.1.0] - 2021-03-05
+*** Added
+- Added GameMaster class to manage the game
+*** Changed
+- Removed ship class because it was unnecessary
+
+** [0.0.4] - 2021-03-05
+*** Added
+- Added player and ships classes
+- Adding ships to player works
+
+
+
+** [0.0.3] - 2021-03-4
+*** Added
+- Added basic client/server connection
+
+
+
+** [0.0.2] - 2021-02-24
+*** Added
+- Added gitignore
+- set up Meson project
+
+
+** [0.0.1] - 2021-02-08
+*** Added
+- Create repository and send invitation
