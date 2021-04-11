@@ -8,8 +8,10 @@
 #include "player.h"
 #include "asio.hpp"
 #include "base64.h"
+#include "toml.hpp"
 #include "CLI11.hpp"
 #include "player_message.pb.h"
+
 
 using namespace std;
 using namespace asio::ip;
@@ -65,12 +67,14 @@ int main(int argc, char* argv[]) {
     string port{"1113"};
     string name;
 
-
+    string path;
+    
     
     CLI::App app("Battleships");
 
     app.add_option("-n,--name", name, "Your Username", true)->required();
-    app.add_option("-p,--port", port, "Port to connect to(Default 1113)", true);
+    app.add_option("-p,--port", port, "Port to connect to(Default 1113)", false);
+    app.add_option("--toml_path", path, "Path to the toml configuration file. Check how to set up a toml file in README.md")->check(CLI::ExistingFile);
 
     CLI11_PARSE(app, argc, argv);
 
