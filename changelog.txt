@@ -1,9 +1,9 @@
 * Changelog
 
-** [Unreleased]
+** [1.0.0] - 2021-04-12
 *** Added
 - Added json to track stats
-- Added Documentation
+
 
 
 ** [0.9.0] - 2021-04-11
