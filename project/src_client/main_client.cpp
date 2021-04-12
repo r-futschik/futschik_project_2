@@ -2,6 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <fstream>
 
 
 #include "game_master.h"
@@ -17,11 +18,13 @@
 #include "json.hpp"
 
 
+
 using namespace std;
 using namespace asio::ip;
+using jsonf = nlohmann::json;
 
 
-auto consoleErrorLogger = spdlog::stderr_color_mt("console");
+auto consoleLogger = spdlog::stderr_color_mt("console");
 
 
 
@@ -30,7 +33,7 @@ auto resultFileLogger =  spdlog::basic_logger_mt("logWriter", "../logs.txt");
 
 
 // main game cycle, in each cycle it is either the clients turn, or not in which case he has to wait.
-void start_game(tcp::iostream& strm, Player& player){
+int start_game(tcp::iostream& strm, Player& player, bool save_game, string save_game_path){
     auto fileErrorLogger =  spdlog::basic_logger_mt("DisconnectErrorLogWriter", "../error_logs.txt");
     string guess;
     string data;
@@ -58,6 +61,7 @@ void start_game(tcp::iostream& strm, Player& player){
 
                     EndTurnMessage end_msg;
                     end_msg.set_guess(guess);
+                    
 
                     strm << Base64::to_base64(end_msg.SerializeAsString()) << "\n";
 
@@ -67,6 +71,7 @@ void start_game(tcp::iostream& strm, Player& player){
                     next_msg.ParseFromString(Base64::from_base64(next_turn));
                     player.make_a_guess(next_msg.guess(), next_msg.sunk());
                     your_turn = false;
+                    
 
                 } else {
                     cout << "Its your Opponents turn!" << endl;
@@ -75,24 +80,52 @@ void start_game(tcp::iostream& strm, Player& player){
 
 
                     next_msg.ParseFromString(Base64::from_base64(next_turn));
+
+                    
                     player.save_opponent_guess(next_msg.guess(), next_msg.sunk());
                     your_turn = true;
+
+                    
                 }
                 game_over = next_msg.game_over();
             } else {
                 fileErrorLogger->error("Your Opponent disconnected");
                 throw "Your Opponent disconnected";
             }
+        
+        if (save_game){
+            jsonf jsonfile;
+
+            jsonfile["opponent_guesses"] = player.get_opponent_guesses();
+            jsonfile["my_guesses"] = player.get_guesses();
+            
+            if (save_game_path != "") {
+                ofstream file(save_game_path);
+                file << jsonfile;
+
+            } else {
+                if (player.number == 1){
+                    ofstream file("../../stats/player1/game.json");
+                    file << jsonfile;
+                } else {
+                    ofstream file("../../stats/player2/game.json");
+                    file << jsonfile;
+                }
+            }
+        }
+        
         }
     } else {
         
         fileErrorLogger->error("Your Opponent disconnected");
         throw "Your Opponent disconnected";
     }
+
+    return next_msg.game_over();
 }
 
 // Client sends his name to the server and registers to play
-void connect_to_server(tcp::iostream& strm, string name){
+void connect_to_server(tcp::iostream& strm, string name, Player& player){
     if(strm) {
         cout << "Waiting for a Opponent to join..." << endl;
         strm << name << endl; 
@@ -101,9 +134,11 @@ void connect_to_server(tcp::iostream& strm, string name){
         
         getline(strm, data);
 
-        OpponentMsg msg;
+        ConnectMessage msg;
         msg.ParseFromString(Base64::from_base64(data));
         cout << msg.name() << endl;
+        player.number = msg.number();
+        player.opponent_name = msg.opponent_name();
 
 
     } else {
@@ -150,8 +185,10 @@ int main(int argc, char* argv[]) {
     string port{"1113"};
     string name;
 
-    //bool save;
-    //string save_path{""};
+    bool save{false};
+
+    bool save_game{false};
+    string save_path{""};
     string path{""};
     
     
@@ -160,8 +197,9 @@ int main(int argc, char* argv[]) {
     app.add_option("-n,--name", name, "Your Username", true)->required();
     app.add_option("-p,--port", port, "Port to connect to(Default 1113)", false);
     app.add_option("--toml_path", path, "(Recommended) Path to the toml configuration file. Check how to set up a toml file in README.md")->check(CLI::ExistingFile);
-    //app.add_option("-s, --save", save, "Save your wins into an json file");
-    //app.add_option("--save_path", save, "Specify the file you want to save your stats in. Saves will otherwise use the default path")->check(CLI::ExistingFile);
+    app.add_flag("-s, --save", save, "Save your wins into an json file");
+    app.add_flag("--save_game", save_game, "Saves the whole game in a JSON file");
+    app.add_option("--save_game_path", save_path, "Specify the file you want to save your stats in. Saves will otherwise use the default path")->check(CLI::ExistingFile);
 
     CLI11_PARSE(app, argc, argv);
 
@@ -176,7 +214,7 @@ int main(int argc, char* argv[]) {
         }
         
         
-        connect_to_server(strm, name);
+        connect_to_server(strm, name, player);
         
         if (path == ""){
             GameMaster::set_ships(player);
@@ -186,12 +224,40 @@ int main(int argc, char* argv[]) {
 
         send_ships_to_server(strm, player);
         
-        start_game(strm, player);
+        int won = start_game(strm, player, save_game, save_path);
+
+        if (won == player.number){
+            consoleLogger->info("You won the Game!");
+        } else {
+            consoleLogger->info("You lost the Game.");
+        }
+        if (save){
+            jsonf jsonfile;
+
+            if (won == player.number){
+                jsonfile["game"] = "You won vs " + player.opponent_name;
+            } else {
+                jsonfile["game"] = "You lost vs " + player.opponent_name;
+            }
+
+
+            if (player.number == 1){
+                ofstream file("../../stats/player1/stats.json");
+                file << jsonfile;
+            } else {
+                ofstream file("../../stats/player2/stats.json");
+                file << jsonfile;
+            }
+                
+                
+            
+        }
+        
 
     } catch (const char* msg) {
-        consoleErrorLogger->set_level(spdlog::level::err);
-        consoleErrorLogger->error(msg);
-        consoleErrorLogger->error("Check the Error-log for more Information");
+        consoleLogger->set_level(spdlog::level::err);
+        consoleLogger->error(msg);
+        consoleLogger->error("Check the Error-log for more Information");
         return EXIT_FAILURE;
     }
 

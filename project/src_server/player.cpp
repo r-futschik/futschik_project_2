@@ -87,3 +87,12 @@ int Player::opponent_has_a_guess(string position){
     return 0;
 
 }
+
+
+vector<std::tuple<std::string, bool>> Player::get_guesses(){
+    return this->guesses;
+}
+        
+vector<std::tuple<std::string, bool>> Player::get_opponent_guesses(){
+    return this->opponent_guesses;
+}

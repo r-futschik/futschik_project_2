@@ -63,6 +63,8 @@ void start_game_server(vector<tcp::iostream*>& streams){
 
 int main(int argc, char* argv[]) {
 
+    string player1_name{};
+    string player2_name{};
     short unsigned int port{1113};
 
     CLI::App app("Battleships");
@@ -85,7 +87,12 @@ int main(int argc, char* argv[]) {
             string data;
             *strm >> data;
 
-            cout << data << endl;
+            if (i == 0){
+                player1_name = data;
+            } else {
+                player2_name = data;
+            }
+
             streams.push_back(strm);
 
 
@@ -96,11 +103,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for(const auto strm: streams) {
-        OpponentMsg msg;
+    for(int i = 0; i < 2; i++) {
+        ConnectMessage msg;
         msg.set_name("Game is starting...");
-            
-        (*strm) << Base64::to_base64(msg.SerializeAsString()) << endl;
+        msg.set_number(i + 1);
+        if (i == 0){
+            msg.set_opponent_name(player2_name);
+        } else {
+            msg.set_opponent_name(player1_name);
+        }
+        *streams[i] << Base64::to_base64(msg.SerializeAsString()) << endl;
     }
 
     vector<string> player1_ships;
