@@ -21,6 +21,7 @@
 
 using namespace std;
 using namespace asio::ip;
+using namespace toml;
 using jsonf = nlohmann::json;
 
 
@@ -152,9 +153,28 @@ void connect_to_server(tcp::iostream& strm, string name, Player& player){
 // Client sets up his ships with toml
 void set_toml_ships(string toml_path, Player& player){
 
-    const auto data  = toml::parse(toml_path);
-    const auto ships = toml::find<vector<vector<string>>>(data, "ships");
+    vector<vector<string>> ships;
 
+    table configuration = parse_file(toml_path);
+    if(configuration["ships"]) {
+        for (const auto &elem : *configuration["ships"].as_array()) {
+            vector<string> ship;
+
+            try {
+
+                ship.push_back(elem.as_array()->front().value<string>().value());
+                ship.push_back(elem.as_array()->back().value<string>().value());
+            } catch(exception& e) {
+                cout << e.what() << endl;
+                auto fileErrorLogger =  spdlog::basic_logger_mt("ClientErrorLogWriter", "../error_logs.txt");
+                fileErrorLogger->error("Server is offline");
+                throw "Data in toml file contains non-string characters";
+            }
+            
+            ships.push_back(ship);
+        }
+    } 
+    
     GameMaster::set_ships_with_toml(player, ships);
 
 }
