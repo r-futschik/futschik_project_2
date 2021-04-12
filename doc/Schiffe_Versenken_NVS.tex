@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \Huge
+        \textbf{Schiffe Versenken}
+            
+        \vspace{0.5cm}
+        \LARGE
+        Raphael Futschik
+        
+        5BHIF
+        
+        Katalognummer: 6
+        
+        Aufgabe: 23
+         
+        \vfill
+            
+
+
+            
+    \end{center}
+\end{titlepage}
+
+\clearpage
+
+\Large
+\tableofcontents
+
+\clearpage
+
+\section{Schiffe Versenken}
+
+\large
+
+\subsection{Das Spiel}
+Schiffe Versenken ist ein beliebtes das meistens mit Stift und Zettel gespielt wird. Es geht darum, die Schiffe des Gegners zuerst zu versenken, bevor die eigenen Schiffe zerstört werden. Beide Spieler zeichnen am Anfang ihre Schiffe auf Papier, danach versuchen beide Spieler abwechselnd die Position der Schiffe zu erraten. Die Anzahl und Größe der Schiffe variiert dabei je nach Version.
+
+
+\subsection{Realisierung in C++}
+Zuerst einmal muss man sich die Situation ohne Client-Server Kommunikation vorstellen. Welche Daten sind nötig um Schiffe versenken zu spielen? Hierzu können wir uns die UML Diagramme anschauen:
+
+\centering
+\includegraphics[width=\textwidth]{gamemasteruml.png}
+\caption{GameMaster Klassen Diagramm}
+\centering
+\includegraphics[width=\textwidth]{playeruml.png}
+\caption{Player Klassen Diagramm}
+
+ \begin{flushleft}
+\large
+Die allermeisten Variablen und Funktionen werden nur für die visuelle Ausgabe des Spieles benötigt. Im Grunde wird von der Klasse Player nur ship\_locations und add\_ship benötigt. In ship\_locations werden außerdem alle Position der Schiffe einzeln als string gespeichert, da es keinen Sinn macht jedes Schiff als eigenes Objekt zu betrachten. Wenn ein Schiff oder Schiffteil getroffen wird, wird es daraus gelöscht. Es wird allerdings nicht einmal aus den ship\_locations des Players gelöscht, sondern aus dem GameMaster. Der GameMaster übersieht den Spielstatus, während die Player Klasse sich um die Client-seitige Ausgabe kümmert.
+
+
+
+\large
+\clearpage{}
+
+\section{Projektumsetzung}
+
+
+\subsection{Projektbeschreibung}
+
+Es soll das Spiel Schiffe Versenken soll mit einem Server und 2 Clients umgesetzt werden. Die Clients sollen sich für ein Spiel anmelden können, dann spielen und auch ihren Punktestand abfragen können. Die Daten der Schiffe sollen mit TOML eingelesen werden können. 
+
+\subsection{Client-Server Kommunikation}
+Die Client-Server Kommunikation wurde mithilfe von ProtoBuf realisiert. Es gibt mehrere Phasen die, der Server und der Client durchlaufen muss, um ins Spiel zu gelangen. 
+\paragraph{Phase 1 - Verbindung aufbauen}\mbox{}\\
+
+Der Server wird gestartet und wartet bis sich 2 Clients zu ihm verbunden haben. Er speichert die Verbindungen und schickt den Clients eine Nachricht, dass das Spiel beginnt.
+
+\paragraph{Phase 2 - Schiffe aufsetzen}\mbox{}\\
+Dieser Schritt passiert automatisch, falls beide Clients ihre Schiffe mit TOML aufsetzen.
+Falls dies nicht der Fall ist, wird solange gewartet bis der/die Client/s ihre Schiffe fertig aufgesetzt haben.
+Wenn ein Client fertig ist, schickt er seine Schiffe dem Server, der sich die Schiffe speichert und wartet bis jeder der 2 Clients die Schiffe geschickt hat. Sobald das der Fall ist schickt der Server den Clients die Nachricht um das Spiel zu starten.
+
+\paragraph{Phase 3 - Das Spiel}\mbox{}\\
+Beide Clients betreten den Spiel Zyklus mit unterschiedlichen Rollen. Der eine Client beginnt mit seinem ersten Zug während der andere auf den nächsten Zug wartet. Derjenige der am Zug ist schickt dem Server seine Vermutung. Der Server überprüft ob es sich um einen Treffer handelt. Danach schickt der Server die Nachricht für den nächsten Zug. Durch das visuelle Feedback sieht jeder Client, welche Positionen er und sein Gegner schon geraten haben und welche davon Treffer waren und welche nicht.
+
+\subsection{Client-Server Kommunikation - ProtoBuf}
+Wie oben erwähnt, wurde ProtoBuf in diesem Projekt benutzt. In a Nutshell kann man sagen, dass mit ProtoBuf immer Nachrichten gesendet werden und auf diese Nachrichten gewartet wird. Im der .proto Datei wird definiert, was in den Nachrichten mitgeschickt wird. Es werden nur primitive Datentypen verwendet, allerdings werden nested types wie repeated, required oder optional unterstüzt. Die letzten 2 erklären sich von selbst, mit repeated können statt zum Beispiel nur einem Integer, mehrere gesendet werden. 
+
+ \end{flushleft}
+\centering
+\includegraphics[width=\textwidth]{client_waits.png}
+\caption{Client wartet auf Nachricht des Servers um das Spiel zu starten}
+
+\centering
+\includegraphics[width=\textwidth]{client_waits.png}
+\caption{Server sended beiden Clients die Nachricht um das Spiel zu starten}
+
+ \begin{flushleft}
+ 
+\subsection{Dateneingabe - TOML}
+TOML ist definitiv ein zentraler Teil dieses Projektes, man kann zwar seine Schiffe auch manuell erstellen, dies dauert allerdings deutlich länger. Die einzige Aufgabe des Benutzers ist es, ein korrektes TOML file zur Verfügung zu stellen. Falls der User einen Fehler in der Datei hat, wird der genaue Grund dafür geloggt und kann einfach behoben werden. In C++ benötigt man nicht mehr als 2 Zeilen um die Daten aus der Datei zu bekommen. Das einzige worauf geachtet werden muss, sind die Datentypen. In TOML sind quasi alle Datentypen unterstützt, ein Array wird aber zum Beispiel in einen Vektor in C++ umgewandelt. Deshalb muss man bei komplexen Datentypen, zumindest bei C++ aufpassen.
+
+ \end{flushleft}
+ 
+\centering
+\includegraphics[width=\textwidth]{toml_example.png}
+\caption{Aufnahme der Daten des TOML files in C++}
+
+\begin{center}
+\includegraphics[width=7cm]{toml_file_example.png}
+\center \caption{Beispiel eines TOML files}
+\end{center}
+ \begin{flushleft}
+
+ \subsection{Datenspeicherung - JSON}
+Neben Logging, werden in dem Projekt durch JSON Daten gespeichert. Dabei wird die Bibliothek JSON for Modern C++ von Niels Lohmann verwendet. Es muss lediglich json.hpp inkludiert werden um zu funktionieren. Wie im unteren Beispiel zu sehen ist, ist es einfach in json files zu schreiben, man definiert ein json Objekt, in dem man alle Werte speichert die man möchte. Dann muss man nur noch den Pfad festlegen und man kann es dort speichern.
+ \end{flushleft}
+ 
+\centering
+\includegraphics[width=\textwidth]{json_example.png}
+\caption{Es wird gespeichert gegen wen man gewonnen/verloren hat}
+
+ \begin{flushleft}
+
+\subsection{Projekt Bedienung}
+Damit das Spiel gestartet werden kann, muss immer zuerst der Server gestartet werden. Am Server muss nicht konfiguriert werden, er wartet einfach nur bis sich 2 Clients verbinden. Der Server könnte hierbei auch von einer 3. Partei bereitgestellt werden. Als Client kann man ein paar Option auswählen die hier beschrieben sind.
+\begin{itemize}
+\item \texttt{name} $\rightarrow$ Der Username des Spielers(erforderlich
+\item \texttt{port} \rightarrow$ Ändert den Port zu dem sich der Client verbindet
+\item \texttt{toml\_path} \rightarrow$ Setzt die Schiffe mit einem TOML file auf
+\item \texttt{save} \rightarrow$ Speichert die Siege/Niederlagen in ein JSON file.
+\item \texttt{save\_game} \rightarrow$ Speichert das gesamte Spiel in einem JSON file
+\item \texttt{save\_game\_path} \rightarrow$ Spezifiziert den Speicherort für die Datei mit dem Spiel
+
+
+\end{itemize}
+
+
+\end{flushleft}
+\end{document}
