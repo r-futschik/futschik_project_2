@@ -7,7 +7,6 @@
 #include "asio.hpp"
 #include "game_master.h"
 #include "player.h"
-#include "tabulate/table.hpp"
 #include "player_message.pb.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -15,7 +14,7 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
-#include "tabulate/tabulate.hpp"
+#include <tabulate.hpp>
 #pragma GCC diagnostic pop
 
 using namespace tabulate;

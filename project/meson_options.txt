@@ -1,6 +1,6 @@
 
 option('asio_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers/asio-1.18.1/include', description : 'the include dir of asio')
-option('tabulate_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/include', description : 'the include dir of asio')
+option('tabulate_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers/tabulate-master/single_include/tabulate', description : 'the include dir of asio')
 option('cli11_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers', description : 'the dir containing CLI11.hpp')
 option('json_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers/json', description : 'the dir containing json.hpp')
 option('spdlog_include_dir', type : 'string', value : '/mnt/c/Users/Raphi/Documents/cpp_headers/spdlog', description : 'the include dir of spdlog')
